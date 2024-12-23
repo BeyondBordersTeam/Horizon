@@ -39,7 +39,6 @@ const UniversityDashboard = () => {
       console.error('Error fetching programs:', error)
       toast.error('Failed to fetch programs. Please try again.')
 
-      //alert('Failed to fetch programs. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -72,7 +71,6 @@ const UniversityDashboard = () => {
         })
         toast.success('Program added successfully!', {autoClose: 500})
 
-        //alert('Program added successfully')
         closeModal()
       } else {
         toast.error(`Error adding program: ${data}`)

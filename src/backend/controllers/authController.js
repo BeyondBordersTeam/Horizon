@@ -30,22 +30,9 @@ export const signup = async (req, res) => {
         'Password must be at least 8 characters long, contain an uppercase letter, and a number.',
     })
   }
-  console.log('DATAAAAAA: ', data)
-
-  /*
-    if (!role || !data.email || !data.password) {
-      console.log('Missing fields:', data)
-      return res.status(400).json({message: 'All fields are required'})
-    }
-  */
-
-  if (!data.contact_email) {
-    console.log('Missing role:', data.contact_email)
-    return res.status(400).json({message: '!data.contact_email'})
-  }
-  if (!data.password) {
-    console.log('Missing role:', data.password)
-    return res.status(400).json({message: '!data.password'})
+  if (!role || !data.email || !data.password) {
+    console.log('Missing fields:', data)
+    return res.status(400).json({message: 'All fields are required'})
   }
 
   let checkQuery = ''
