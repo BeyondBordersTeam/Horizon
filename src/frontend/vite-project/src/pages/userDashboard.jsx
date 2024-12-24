@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './userDashboard.css';
+import React, {useEffect, useState} from 'react'
+import './userDashboard.css'
 
 const UserDashboard = () => {
   const [filters, setFilters] = useState({
@@ -8,77 +8,77 @@ const UserDashboard = () => {
     studyLevel: '',
     cost: [0, 50000],
     field: '',
-  });
+  })
 
-  const [universities, setUniversities] = useState([]);
-  const [filteredUniversities, setFilteredUniversities] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedUniversity, setSelectedUniversity] = useState(null); // For details view
-  const universitiesPerPage = 6;
+  const [universities, setUniversities] = useState([])
+  const [filteredUniversities, setFilteredUniversities] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedUniversity, setSelectedUniversity] = useState(null) // For details view
+  const universitiesPerPage = 6
 
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/universities'); // Update URL as per your backend
-        const data = await response.json();
-        setUniversities(data);
-        setFilteredUniversities(data); // Initially show all universities
+        const response = await fetch('http://localhost:5000/api/universities') // Update URL as per your backend
+        const data = await response.json()
+        setUniversities(data)
+        setFilteredUniversities(data) // Initially show all universities
       } catch (error) {
-        console.error('Error fetching universities:', error);
+        console.error('Error fetching universities:', error)
       }
-    };
+    }
 
-    fetchUniversities();
-  }, []);
+    fetchUniversities()
+  }, [])
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters({ ...filters, [name]: value });
-  };
+    const {name, value} = e.target
+    setFilters({...filters, [name]: value})
+  }
 
   const applyFilters = () => {
     const filtered = universities.filter((university) => {
       const matchesCountry = filters.country
         ? university.country.toLowerCase().includes(filters.country.toLowerCase())
-        : true;
+        : true
       const matchesCity = filters.city
         ? university.city.toLowerCase().includes(filters.city.toLowerCase())
-        : true;
+        : true
       const matchesStudyLevel = filters.study_levels
         ? university.study_levels.toLowerCase().includes(filters.studyLevel.toLowerCase())
-        : true;
+        : true
       const matchesField = filters.field
         ? university.study_fields.toLowerCase().includes(filters.field.toLowerCase())
-        : true;
+        : true
       const matchesCost =
         university.tuition_fee_min >= filters.cost[0] &&
-        university.tuition_fee_max <= filters.cost[1];
+        university.tuition_fee_max <= filters.cost[1]
 
-      return matchesCountry && matchesCity && matchesStudyLevel && matchesField && matchesCost;
-    });
+      return matchesCountry && matchesCity && matchesStudyLevel && matchesField && matchesCost
+    })
 
-    setFilteredUniversities(filtered);
-    setCurrentPage(1); // Reset to the first page
-  };
+    setFilteredUniversities(filtered)
+    setCurrentPage(1) // Reset to the first page
+  }
 
-  const indexOfLastUniversity = currentPage * universitiesPerPage;
-  const indexOfFirstUniversity = indexOfLastUniversity - universitiesPerPage;
+  const indexOfLastUniversity = currentPage * universitiesPerPage
+  const indexOfFirstUniversity = indexOfLastUniversity - universitiesPerPage
   const currentUniversities = filteredUniversities.slice(
     indexOfFirstUniversity,
     indexOfLastUniversity
-  );
+  )
 
   const nextPage = () => {
     if (currentPage < Math.ceil(filteredUniversities.length / universitiesPerPage)) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage(currentPage + 1)
     }
-  };
+  }
 
   const prevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage(currentPage - 1)
     }
-  };
+  }
 
   // Render the university details view
   const renderUniversityDetails = () => (
@@ -88,16 +88,18 @@ const UserDashboard = () => {
       <p><strong>Description:</strong> {selectedUniversity.description}</p>
       <p><strong>Study Levels:</strong> {selectedUniversity.study_levels}</p>
       <p><strong>Fields:</strong> {selectedUniversity.study_fields}</p>
-      <p><strong>Tuition Fees:</strong> {selectedUniversity.tuition_fee_min} - {selectedUniversity.tuition_fee_max} USD/year</p>
+      <p><strong>Tuition
+        Fees:</strong> {selectedUniversity.tuition_fee_min} - {selectedUniversity.tuition_fee_max} USD/year</p>
       <p><strong>Application Deadline:</strong> {selectedUniversity.application_deadline}</p>
       <p><strong>Contact Email:</strong> {selectedUniversity.contact_email}</p>
       <p><strong>Contact Phone:</strong> {selectedUniversity.contact_phone}</p>
-      <p><strong>Website:</strong> <a href={selectedUniversity.website_url} target="_blank" rel="noopener noreferrer">{selectedUniversity.website_url}</a></p>
+      <p><strong>Website:</strong> <a href={selectedUniversity.website_url} target="_blank"
+                                      rel="noopener noreferrer">{selectedUniversity.website_url}</a></p>
       <button className="back-button" onClick={() => setSelectedUniversity(null)}>
         Back to List
       </button>
     </div>
-  );
+  )
 
   return (
     <div className="dashboard-container">
@@ -151,7 +153,7 @@ const UserDashboard = () => {
               max="100000"
               value={filters.cost[1]}
               onChange={(e) =>
-                setFilters({ ...filters, cost: [0, parseInt(e.target.value)] })
+                setFilters({...filters, cost: [0, parseInt(e.target.value)]})
               }
             />
             <p>Up to {filters.cost[1]} USD/year</p>
@@ -213,7 +215,7 @@ const UserDashboard = () => {
         )}
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default UserDashboard;
+export default UserDashboard
